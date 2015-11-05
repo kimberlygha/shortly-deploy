@@ -61,7 +61,7 @@ module.exports = function(grunt) {
         //
         target:{
           files:{
-            'output.css': ['public/styles.css']
+            'output.css': ['public/style.css']
           }
         }
     },
