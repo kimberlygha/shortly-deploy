@@ -16,7 +16,10 @@ app.configure(function() {
   app.use(express.session());
 });
 
-app.get('/', util.checkUser, handler.renderIndex);
+app.get('/', function(req, res){
+  res.end('hello!');
+})
+// app.get('/', util.checkUser, handler.renderIndex);
 app.get('/create', util.checkUser, handler.renderIndex);
 
 app.get('/links', util.checkUser, handler.fetchLinks);
@@ -30,5 +33,6 @@ app.get('/signup', handler.signupUserForm);
 app.post('/signup', handler.signupUser);
 
 app.get('/*', handler.navToLink);
+
 
 module.exports = app;
