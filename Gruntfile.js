@@ -1,9 +1,16 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    concat: {
-    },
+   pkg: grunt.file.readJSON('package.json'),
+   concat: {
+     options:{
+       separator:';'
+     },
+     dist:{
+       src:['public/client/*.js'],
+       dest: 'public/client/built.js',
+     },
+  },
 
     mochaTest: {
       test: {
@@ -20,12 +27,24 @@ module.exports = function(grunt) {
       }
     },
 
-    uglify: {
+  uglify: {
+      options:{
+        mangle:false
+      },
+      my_target: {
+        files: {
+          'public/client/built.min.js':['public/client/built.js']
+        }
+      }
     },
 
-    jshint: {
+     jshint: {
       files: [
         // Add filespec list here
+        //TODO - run on these js files
+        'server.js',
+        'app/**/*.js',
+        'lib/**/*.js'
       ],
       options: {
         force: 'true',
@@ -37,9 +56,16 @@ module.exports = function(grunt) {
       }
     },
 
-    cssmin: {
+   cssmin: {
         // Add filespec list here
+        //
+        target:{
+          files:{
+            'output.css': ['public/styles.css']
+          }
+        }
     },
+
 
     watch: {
       scripts: {
@@ -95,6 +121,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+      'jshint', 'cssmin', 'concat', 'uglify'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -107,6 +134,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
       // add your production server task here
+      'jshint', 'cssmin', 'concat', 'uglify'
   ]);
 
 
